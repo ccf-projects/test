@@ -8,6 +8,8 @@ using BookWeb.Context;
 
 using ExcelDataReader;
 using System.Text;
+//using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace BookWeb.Controllers;
 
@@ -20,6 +22,34 @@ public class HomeController : Controller
     {
         _logger = logger;
         _context = context;
+    }
+
+    [HttpPost]
+    public IActionResult TestJSON()
+    {
+        string firstName = "Sok";
+        string lastName = "Dam";
+        string gender = "M";
+
+        var jsonData = new Dictionary<string, string>
+        {
+            { "Gender", gender },
+            { "FirstName", firstName },
+            { "LastName", lastName },
+        };
+
+        var entity = new Transaction
+        {
+            AccountName = "John Smith",
+            AccountNumber = "A00903",
+            JsonData = JsonDocument.Parse(JsonSerializer.Serialize(jsonData))
+        };
+
+
+        _context.Transactions.Add(entity);
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
     }
 
     [HttpPost]

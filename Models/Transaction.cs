@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 
 namespace BookWeb.Models
 {
@@ -16,6 +17,8 @@ namespace BookWeb.Models
         [Required]
         [DisplayName("Account Number")]
         public string AccountNumber { get; set; }
+
+        public JsonDocument JsonData { get; set; }
     }
 }
 
