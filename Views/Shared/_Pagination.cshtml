@@ -1,0 +1,47 @@
+﻿@{
+    // Get the existing page value from the query string
+    string currentPage = Context.Request.Query["page"];
+
+    // Remove the existing page parameter from the query string
+    string queryStringWithoutPage = string.Join("&", Context.Request.Query.Where(q => q.Key != "page").Select(q => $"{q.Key}={q.Value}"));
+
+    // Combine the existing page value and the new query string
+    string queryString = $"{queryStringWithoutPage}";
+}
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+<div>
+    <ul class="pagination">
+
+        @if (Model.PageNumber > 1)
+        {
+            //First
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = 1 })&@queryString">First</a>
+            </li>
+            //Previous
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1 })&@queryString">&laquo;</a>
+            </li>
+        }
+
+        @for (int i = Math.Max(1, Model.PageNumber - 5); i <= Math.Min(Model.PageCount, Model.PageNumber + 5); i++)
+        {
+            //Pages
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = i })&@queryString">@i</a>
+            </li>
+        }
+
+        @if (Model.PageNumber < Model.PageCount)
+        {
+
+            //Next
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber + 1 })&@queryString">&raquo;</a>
+            </li>
+            //Last
+            <li class="page-item"><a class="page-link" href="@Url.Action("Index", new { page = Model.PageCount })&@queryString">Last</a></li>
+        }
+    </ul>
+</div>
