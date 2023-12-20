@@ -1,9 +1,27 @@
 ﻿@{
-//ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Import Excel";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Import Excel</h2>
+        </div>
+    </div>
+
+    <br /><br />
 </div>
 
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <label>Select Excel File</label>
+        <input type="file" name="file" />
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-3">
+            <input type="submit" asp-controller="Home" asp-action="UploadExcel" class="btn btn-dark" value="Upload Excel File" />
+        </div>
+    </div>
+</form>
